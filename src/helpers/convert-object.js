@@ -10,9 +10,9 @@ const isObject = (d) =>
 
 // convert object keys to snake_case
 const toSnakeCase = (d, filter = false) => {
-  if (d instanceof FormData) {
-    return d;
-  }
+  // if (d instanceof FormData) { // fix deploy
+  //   return d;
+  // }
 
   if (isObject(d)) {
     const o = {};
