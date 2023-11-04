@@ -10,7 +10,12 @@ const {
   ForbiddenError,
 } = require("../core/error.response");
 const KeyTokenService = require("./key-token.service");
-const { createTokenPair, verifyJWT } = require("../utils/authUtils");
+const {
+  createTokenPair,
+  verifyJWT,
+  clearCookieRefreshToken,
+  setCookieRefreshToken,
+} = require("../utils/authUtils");
 const { getInFoData } = require("../utils");
 const UserService = require("../services/user.service");
 const { KEY_TOKEN } = require("../constants/token.constants");
@@ -46,11 +51,7 @@ class AccessService {
       userId,
     });
 
-    res.cookie("refresh_token", refreshToken, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 1day
-      secure: true,
-    });
+    setCookieRefreshToken(res, refreshToken);
 
     return {
       ...getInFoData({
@@ -132,7 +133,7 @@ class AccessService {
     if (refresh_token_used.includes(refreshTokenHeader)) {
       // remove refresh token used
       await KeyTokenService.deleteKeyTokenById(user);
-      res.clearCookie("refresh_token");
+      clearCookieRefreshToken(res);
 
       throw new ForbiddenError("Đã xảy ra vấn đề ? Vui lòng đăng nhập lại");
     }
@@ -156,11 +157,7 @@ class AccessService {
       $addToSet: { refresh_token_used: refreshTokenHeader },
     });
 
-    res.cookie("refresh_token", refreshToken, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 1day
-      secure: true,
-    });
+    setCookieRefreshToken(res, refreshToken);
 
     return {
       accessToken,
@@ -171,11 +168,11 @@ class AccessService {
     const userLogout = await KeyTokenService.findByUserId(userId);
 
     if (!userLogout) {
-      res.clearCookie("refresh_token");
+      clearCookieRefreshToken(res);
       return null;
     }
 
-    res.clearCookie("refresh_token");
+    clearCookieRefreshToken(res);
     await KeyTokenService.deleteKeyTokenById(userId);
     return null;
   }
