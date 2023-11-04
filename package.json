@@ -20,7 +20,7 @@
     "lodash.camelcase": "^4.3.0",
     "lodash.pick": "^4.4.0",
     "lodash.snakecase": "^4.1.1",
-    "mongoose": "^7.6.0"
+    "mongoose": "^6.6.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0",
