@@ -37,10 +37,10 @@ const verifyJWT = async ({
 const createTokenPair = (payload, publicKey, privateKey) => {
   try {
     const accessToken = JWT.sign(payload, publicKey, {
-      expiresIn: "30m",
+      expiresIn: "20s",
     });
     const refreshToken = JWT.sign(payload, privateKey, {
-      expiresIn: "1h",
+      expiresIn: "30s",
     });
 
     JWT.verify(accessToken, publicKey, (err) => {
@@ -85,8 +85,27 @@ const authentication = asyncHandler(async (req, res, next) => {
   next();
 });
 
+const clearCookieRefreshToken = (res) => {
+  res.clearCookie("refresh_token", {
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
+  });
+};
+
+const setCookieRefreshToken = (res, refreshToken) => {
+  res.cookie("refresh_token", refreshToken, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24, // 1day
+    secure: true,
+    sameSite: "None",
+  });
+};
+
 module.exports = {
   createTokenPair,
   authentication,
   verifyJWT,
+  clearCookieRefreshToken,
+  setCookieRefreshToken,
 };
