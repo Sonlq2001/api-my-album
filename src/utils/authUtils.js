@@ -37,10 +37,10 @@ const verifyJWT = async ({
 const createTokenPair = (payload, publicKey, privateKey) => {
   try {
     const accessToken = JWT.sign(payload, publicKey, {
-      expiresIn: "20s",
+      expiresIn: "30m",
     });
     const refreshToken = JWT.sign(payload, privateKey, {
-      expiresIn: "30s",
+      expiresIn: "1h",
     });
 
     JWT.verify(accessToken, publicKey, (err) => {
@@ -58,26 +58,26 @@ const createTokenPair = (payload, publicKey, privateKey) => {
 const authentication = asyncHandler(async (req, res, next) => {
   const clientId = req.headers[HEADER.CLIENT_ID];
   if (!clientId) {
-    throw new AuthFailureError("Không thể xác thực người dùng !");
+    throw new BadRequestError("Không thể xác thực người dùng !");
   }
 
   const keyStore = await KeyTokenService.findByUserId(clientId);
 
   if (!keyStore) {
-    throw new AuthFailureError("Yêu cầu không hợp lệ !");
+    throw new BadRequestError("Yêu cầu không hợp lệ !");
   }
 
   const tokenHeader = req.headers[HEADER.AUTHORIZATION];
   const token = tokenHeader?.split(" ")?.[1];
 
   if (!token) {
-    throw new AuthFailureError("Không thể xác thực !");
+    throw new BadRequestError("Không thể xác thực !");
   }
 
   const decodeUser = await verifyJWT({ token, keySecret: keyStore.public_key });
 
   if (decodeUser.userId !== clientId) {
-    throw new AuthFailureError("UserId không tồn tại !");
+    throw new BadRequestError("UserId không tồn tại !");
   }
 
   req.keyStore = keyStore;
