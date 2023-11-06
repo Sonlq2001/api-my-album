@@ -12,8 +12,8 @@ const cloudinaryUploads = async (file) => {
     });
 
     return {
-      url: resCloudinary.url,
-      id: resCloudinary.public_id,
+      image_url: resCloudinary.url,
+      public_id: resCloudinary.public_id,
     };
   } catch (error) {
     throw error;
