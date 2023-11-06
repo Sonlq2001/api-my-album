@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.use(authentication);
 
-router.get("/albums", asyncHandler(AlbumController.getAlbums));
+router.get("/albums", asyncHandler(AlbumController.getListAlbums));
 router.post("/album_create", asyncHandler(AlbumController.createAlbum));
 
 module.exports = router;

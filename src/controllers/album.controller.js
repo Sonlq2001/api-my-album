@@ -4,8 +4,11 @@ const AlbumService = require("../services/album.service");
 const SuccessResponse = require("../core/success.response");
 
 class AlbumController {
-  static async getAlbums(req, res) {
-    return res.status(200).json({ data: [{ image: "", title: "1" }] });
+  static async getListAlbums(req, res) {
+    new SuccessResponse({
+      message: "Danh sách albums !",
+      metadata: await AlbumService.getListAlbums(req.query),
+    }).send(res);
   }
 
   static async createAlbum(req, res) {

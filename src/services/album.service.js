@@ -1,9 +1,15 @@
 "use strict";
 
+const AlbumModel = require("../models/album.model");
+
 class AlbumService {
-  static async createAlbum({ name }) {
-    // TODO: create album
-    console.log(name);
+  static async getListAlbums({ status }) {
+    return await AlbumModel.find({ status }).lean();
+  }
+
+  static async createAlbum(data) {
+    const newAlbum = AlbumModel.create(data);
+    return newAlbum;
   }
 }
 
