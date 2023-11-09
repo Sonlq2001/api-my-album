@@ -14,6 +14,6 @@ router.use(authentication);
 
 router.use(uploadMulter);
 
-router.post("/upload_files", asyncHandler(UploadController.uploadFiles));
+router.post("/album/files", asyncHandler(UploadController.uploadFiles));
 
 module.exports = router;
