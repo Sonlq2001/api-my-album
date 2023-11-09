@@ -4,8 +4,14 @@ const MAX_FILE_SIZE = 1024 * 1024 * 2; // 2mb
 
 const MAX_FILES_UPLOAD = 10;
 
+const STATUS_ALBUM = {
+  PUBLIC: 0,
+  PRIVATE: 1,
+};
+
 module.exports = {
   FOLDER_UPLOAD_IMAGES_CLOUDINARY,
   MAX_FILE_SIZE,
   MAX_FILES_UPLOAD,
+  STATUS_ALBUM,
 };
