@@ -24,6 +24,20 @@ class AlbumController {
       metadata: await AlbumService.createAlbum(req.body),
     }).send(res);
   }
+
+  static async getAlbumDetailPublic(req, res) {
+    new SuccessResponse({
+      message: "Chi tiết album !",
+      metadata: await AlbumService.getAlbumDetailPublic(req.params.slug),
+    }).send(res);
+  }
+
+  static async getAlbumDetailPrivate(req, res) {
+    new SuccessResponse({
+      message: "Chi tiết album !",
+      metadata: await AlbumService.getAlbumDetailPrivate(req.params.slug),
+    }).send(res);
+  }
 }
 
 module.exports = AlbumController;

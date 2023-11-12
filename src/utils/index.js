@@ -9,7 +9,17 @@ const getInFoData = ({ fields = [], object = {} }) => {
 
 const convertToObjectIdMongodb = (id) => new Types.ObjectId(id);
 
+const unGetSelectData = (select = []) => {
+  return Object.fromEntries(select.map((item) => [item, 0]));
+};
+
+const getSelectData = (select = []) => {
+  return Object.fromEntries(select.map((item) => [item, 1]));
+};
+
 module.exports = {
   getInFoData,
   convertToObjectIdMongodb,
+  unGetSelectData,
+  getSelectData,
 };
