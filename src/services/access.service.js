@@ -118,7 +118,7 @@ class AccessService {
     );
 
     if (!keyStore) {
-      throw new AuthFailureError("Không thể xác thực !");
+      throw new AuthFailureError("yes");
     }
 
     const { refresh_token_used, private_key, public_key, user } = keyStore;
@@ -133,15 +133,15 @@ class AccessService {
     if (refresh_token_used.includes(refreshTokenHeader)) {
       // remove refresh token used
       await KeyTokenService.deleteKeyTokenById(user);
-      clearCookieRefreshToken(res);
 
-      throw new ForbiddenError("Đã xảy ra vấn đề ? Vui lòng đăng nhập lại");
+      clearCookieRefreshToken(res);
+      throw new AuthFailureError("yes");
     }
 
     const foundUser = await UserService.findUserById(user);
 
     if (!foundUser) {
-      throw new AuthFailureError("User không tồn tại");
+      throw new AuthFailureError("yes");
     }
 
     const { accessToken, refreshToken } = createTokenPair(
