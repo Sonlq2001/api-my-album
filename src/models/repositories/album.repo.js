@@ -11,6 +11,10 @@ const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
       path: "user",
       select: "_id name email",
     })
+    .populate({
+      path: "category",
+      select: "_id title",
+    })
     .select(unGetSelectData(unSelect))
     .lean();
 
