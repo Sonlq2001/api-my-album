@@ -118,7 +118,7 @@ class AccessService {
     );
 
     if (!keyStore) {
-      throw new AuthFailureError("logout");
+      throw new AuthFailureError("yes");
     }
 
     const { refresh_token_used, private_key, public_key, user } = keyStore;
@@ -135,13 +135,13 @@ class AccessService {
       await KeyTokenService.deleteKeyTokenById(user);
 
       clearCookieRefreshToken(res);
-      throw new AuthFailureError("logout");
+      throw new AuthFailureError("yes");
     }
 
     const foundUser = await UserService.findUserById(user);
 
     if (!foundUser) {
-      throw new AuthFailureError("logout");
+      throw new AuthFailureError("yes");
     }
 
     const { accessToken, refreshToken } = createTokenPair(

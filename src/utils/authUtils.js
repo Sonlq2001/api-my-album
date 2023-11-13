@@ -30,7 +30,7 @@ const verifyJWT = async ({
       throw new TimeoutError("Phiên token đã hết hạn !");
     }
     await KeyTokenService.deleteKeyTokenById(userId); // remove key store when refresh token expired
-    throw new AuthFailureError("logout");
+    throw new AuthFailureError("yes");
   }
 };
 
