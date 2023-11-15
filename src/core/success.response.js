@@ -6,10 +6,12 @@ class SuccessResponse {
     statusCode = 200,
     reasonStatusCode = 200,
     metadata = {},
+    meta = {},
   }) {
     this.message = message ? message : reasonStatusCode;
     this.status = statusCode;
     this.metadata = metadata;
+    this.meta = meta;
   }
 
   send(res, headers = {}) {

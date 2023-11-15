@@ -5,14 +5,20 @@ const { STATUS_ALBUM } = require("../constants/app.constants");
 const {
   getAlbumDetail,
   getListAlbums,
+  getCountAlbums,
 } = require("../models/repositories/album.repo");
 
 class AlbumService {
-  static async getListAlbumsPublic({ category }) {
-    return await getListAlbums({
-      status: STATUS_ALBUM.PUBLIC,
-      params: { category },
-    });
+  static async getListAlbumsPublic({ category, page, perPage }) {
+    return {
+      elements: await getListAlbums({
+        status: STATUS_ALBUM.PUBLIC,
+        params: { category, page, perPage },
+      }),
+      meta: {
+        total: await getCountAlbums({ status: STATUS_ALBUM.PUBLIC }),
+      },
+    };
   }
 
   static async getListAlbumsPrivate({ category }) {
