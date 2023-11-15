@@ -17,8 +17,8 @@ const getSelectData = (select = []) => {
   return Object.fromEntries(select.map((item) => [item, 1]));
 };
 
-const paginate = (page, perPage) => {
-  const skip = (Number(page || 1) - 1) * Number(perPage || 20);
+const paginate = (page = 1, perPage = 20) => {
+  const skip = (Number(page) - 1) * Number(perPage);
   return {
     skip,
     limit: perPage,
