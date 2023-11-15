@@ -6,7 +6,7 @@ class SuccessResponse {
     statusCode = 200,
     reasonStatusCode = 200,
     metadata = {},
-    meta = {},
+    meta,
   }) {
     this.message = message ? message : reasonStatusCode;
     this.status = statusCode;
