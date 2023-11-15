@@ -26,7 +26,7 @@ const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
 };
 
 const getListAlbums = async ({ status, params }) => {
-  const { page, perPage } = params;
+  const { page, per_page } = params;
 
   const categoryDetail = await CategoryService.findBySlugCategory(
     params?.category
@@ -39,7 +39,7 @@ const getListAlbums = async ({ status, params }) => {
       }
     : { status };
 
-  const { skip, limit } = paginate(page, perPage);
+  const { skip, limit } = paginate(page, per_page);
 
   return await AlbumModel.find(conditionFind)
     .populate({
