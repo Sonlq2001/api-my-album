@@ -17,9 +17,18 @@ const getSelectData = (select = []) => {
   return Object.fromEntries(select.map((item) => [item, 1]));
 };
 
+const paginate = (page, perPage) => {
+  const skip = (Number(page || 1) - 1) * Number(perPage || 20);
+  return {
+    skip,
+    limit: perPage,
+  };
+};
+
 module.exports = {
   getInFoData,
   convertToObjectIdMongodb,
   unGetSelectData,
   getSelectData,
+  paginate,
 };

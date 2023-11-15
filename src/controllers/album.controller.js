@@ -5,9 +5,13 @@ const SuccessResponse = require("../core/success.response");
 
 class AlbumController {
   static async getListAlbumsPublic(req, res) {
+    const { elements, meta } = await AlbumService.getListAlbumsPublic(
+      req.query
+    );
     new SuccessResponse({
       message: "Danh sách albums !",
-      metadata: await AlbumService.getListAlbumsPublic(req.query),
+      metadata: elements,
+      meta,
     }).send(res);
   }
 

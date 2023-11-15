@@ -1,5 +1,9 @@
 const AlbumModel = require("../../models/album.model");
-const { unGetSelectData, convertToObjectIdMongodb } = require("../../utils");
+const {
+  unGetSelectData,
+  convertToObjectIdMongodb,
+  paginate,
+} = require("../../utils");
 const CategoryService = require("../../services/category.service");
 
 const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
@@ -22,6 +26,8 @@ const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
 };
 
 const getListAlbums = async ({ status, params }) => {
+  const { page, perPage } = params;
+
   const categoryDetail = await CategoryService.findBySlugCategory(
     params?.category
   );
@@ -33,6 +39,8 @@ const getListAlbums = async ({ status, params }) => {
       }
     : { status };
 
+  const { skip, limit } = paginate(page, perPage);
+
   return await AlbumModel.find(conditionFind)
     .populate({
       path: "category",
@@ -43,10 +51,17 @@ const getListAlbums = async ({ status, params }) => {
       select: "_id name email",
     })
     .select(unGetSelectData(["__v", "status"]))
+    .skip(skip)
+    .limit(limit)
     .lean();
+};
+
+const getCountAlbums = async ({ status }) => {
+  return await AlbumModel.count({ status });
 };
 
 module.exports = {
   getAlbumDetail,
   getListAlbums,
+  getCountAlbums,
 };
