@@ -6,6 +6,19 @@ const {
 } = require("../../utils");
 const CategoryService = require("../../services/category.service");
 
+const getConditionFindAlbums = async ({ status, slug }) => {
+  const categoryDetail = await CategoryService.findBySlugCategory(slug);
+
+  const conditionFind = categoryDetail
+    ? {
+        status,
+        category: convertToObjectIdMongodb(categoryDetail._id),
+      }
+    : { status };
+
+  return conditionFind;
+};
+
 const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
   const albumDetail = await AlbumModel.findOne({
     slug,
@@ -28,20 +41,14 @@ const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
 const getListAlbums = async ({ status, params }) => {
   const { page, per_page } = params;
 
-  const categoryDetail = await CategoryService.findBySlugCategory(
-    params?.category
-  );
-
-  const conditionFind = categoryDetail
-    ? {
-        status,
-        category: convertToObjectIdMongodb(categoryDetail._id),
-      }
-    : { status };
+  const condition = await getConditionFindAlbums({
+    status,
+    slug: params?.category,
+  });
 
   const { skip, limit } = paginate(page, per_page);
 
-  return await AlbumModel.find(conditionFind)
+  return await AlbumModel.find(condition)
     .populate({
       path: "category",
       select: "_id title slug",
@@ -56,8 +63,12 @@ const getListAlbums = async ({ status, params }) => {
     .lean();
 };
 
-const getCountAlbums = async ({ status }) => {
-  return await AlbumModel.count({ status });
+const getCountAlbums = async ({ status, category }) => {
+  const condition = await getConditionFindAlbums({
+    status,
+    slug: category,
+  });
+  return await AlbumModel.count(condition);
 };
 
 module.exports = {

@@ -16,7 +16,7 @@ class AlbumService {
         params: { category, page, per_page },
       }),
       meta: {
-        total: await getCountAlbums({ status: STATUS_ALBUM.PUBLIC }),
+        total: await getCountAlbums({ status: STATUS_ALBUM.PUBLIC, category }),
       },
     };
   }
