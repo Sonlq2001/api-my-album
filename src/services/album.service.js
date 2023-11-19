@@ -9,22 +9,22 @@ const {
 } = require("../models/repositories/album.repo");
 
 class AlbumService {
-  static async getListAlbumsPublic({ category, page, per_page }) {
+  static async getListAlbumsPublic({ cate, page, per_page }) {
     return {
       elements: await getListAlbums({
         status: STATUS_ALBUM.PUBLIC,
-        params: { category, page, per_page },
+        params: { cate, page, per_page },
       }),
       meta: {
-        total: await getCountAlbums({ status: STATUS_ALBUM.PUBLIC, category }),
+        total: await getCountAlbums({ status: STATUS_ALBUM.PUBLIC, cate }),
       },
     };
   }
 
-  static async getListAlbumsPrivate({ category }) {
+  static async getListAlbumsPrivate({ cate }) {
     return await getListAlbums({
       status: STATUS_ALBUM.PRIVATE,
-      params: { category },
+      params: { cate },
     });
   }
 
