@@ -43,7 +43,7 @@ const getListAlbums = async ({ status, params }) => {
 
   const condition = await getConditionFindAlbums({
     status,
-    slug: params?.category,
+    slug: params?.cate,
   });
 
   const { skip, limit } = paginate(page, per_page);
@@ -63,10 +63,10 @@ const getListAlbums = async ({ status, params }) => {
     .lean();
 };
 
-const getCountAlbums = async ({ status, category }) => {
+const getCountAlbums = async ({ status, cate }) => {
   const condition = await getConditionFindAlbums({
     status,
-    slug: category,
+    slug: cate,
   });
   return await AlbumModel.count(condition);
 };
