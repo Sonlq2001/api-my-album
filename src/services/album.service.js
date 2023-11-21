@@ -9,11 +9,11 @@ const {
 } = require("../models/repositories/album.repo");
 
 class AlbumService {
-  static async getListAlbumsPublic({ cate, page, per_page }) {
+  static async getListAlbumsPublic({ cate, page, per_page, keyword, sort }) {
     return {
       elements: await getListAlbums({
         status: STATUS_ALBUM.PUBLIC,
-        params: { cate, page, per_page },
+        params: { cate, page, per_page, keyword, sort },
       }),
       meta: {
         total: await getCountAlbums({ status: STATUS_ALBUM.PUBLIC, cate }),
