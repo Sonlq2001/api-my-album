@@ -59,27 +59,21 @@ const getListAlbums = async ({ status, params }) => {
 
   const { skip, limit } = paginate(page, per_page);
 
-  return await AlbumModel.find(
-    condition,
-    keyword ? { score: { $meta: "textScore" } } : null
-  )
-    .select(getSelectData(["title", "albums", "slug"]))
-    .skip(skip)
-    .limit(limit)
-    .sort({ createdAt: sortList })
-    .lean();
-};
-
-const getCountAlbums = async ({ status, cate }) => {
-  const condition = await getConditionFindAlbums({
-    status,
-    slug: cate,
-  });
-  return await AlbumModel.count(condition);
+  return {
+    list: await AlbumModel.find(
+      condition,
+      keyword ? { score: { $meta: "textScore" } } : null
+    )
+      .select(getSelectData(["title", "albums", "slug"]))
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: sortList })
+      .lean(),
+    total: await AlbumModel.count(condition),
+  };
 };
 
 module.exports = {
   getAlbumDetail,
   getListAlbums,
-  getCountAlbums,
 };
