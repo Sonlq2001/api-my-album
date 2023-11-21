@@ -55,6 +55,9 @@ const albumSchema = new Schema(
   }
 );
 
+// create index for search
+albumSchema.index({ title: "text" });
+
 albumSchema.pre("save", function (next) {
   this.slug = slugify(this.title, { lower: true, locale: "vi", trim: true });
   next();
