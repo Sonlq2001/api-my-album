@@ -4,11 +4,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
 const UserModel = require("../models/user.model");
-const {
-  BadRequestError,
-  AuthFailureError,
-  ForbiddenError,
-} = require("../core/error.response");
+const { BadRequestError, AuthFailureError } = require("../core/error.response");
 const KeyTokenService = require("./key-token.service");
 const {
   createTokenPair,
@@ -110,7 +106,7 @@ class AccessService {
 
   static async refreshToken({ refreshTokenHeader, res }) {
     if (!refreshTokenHeader) {
-      throw new AuthFailureError("Không thể xác thực !");
+      throw new AuthFailureError("yes");
     }
 
     const keyStore = await KeyTokenService.findByRefreshToken(
