@@ -8,7 +8,7 @@ const COLLECTION_NAME = "Album";
 
 const albumSchema = new Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String, required: true, unique: true },
     user: {
       type: Types.ObjectId,
       ref: "User",

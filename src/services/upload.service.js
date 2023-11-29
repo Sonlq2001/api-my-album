@@ -1,10 +1,17 @@
 "use strict";
 
 const fs = require("fs");
+
 const cloudinaryUploads = require("../helpers/upload-cloudinary");
+
+const { BadRequestError } = require("../core/error.response");
 
 class UploadController {
   static async uploadFiles(files) {
+    if (!files.length) {
+      throw new BadRequestError("Không có file nào được tải lên !");
+    }
+
     const urls = [];
 
     for (const file of files) {
