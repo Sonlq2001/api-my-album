@@ -14,6 +14,13 @@ class UserController {
       ),
     }).send(res);
   }
+
+  static async getUser(req, res) {
+    new SuccessResponse({
+      message: "Thông tin cá nhân !",
+      metadata: await UserService.findUserById(req.user.userId),
+    }).send(res);
+  }
 }
 
 module.exports = UserController;

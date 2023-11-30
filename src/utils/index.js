@@ -9,8 +9,8 @@ const getInFoData = ({ fields = [], object = {} }) => {
 
 const convertToObjectIdMongodb = (id) => new Types.ObjectId(id);
 
-const unGetSelectData = (select = []) => {
-  return Object.fromEntries(select.map((item) => [item, 0]));
+const unGetSelectData = (unSelect = []) => {
+  return Object.fromEntries(unSelect.map((item) => [item, 0]));
 };
 
 const getSelectData = (select = []) => {
