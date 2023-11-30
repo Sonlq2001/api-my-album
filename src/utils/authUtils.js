@@ -64,7 +64,7 @@ const authentication = asyncHandler(async (req, res, next) => {
   const keyStore = await KeyTokenService.findByUserId(clientId);
 
   if (!keyStore) {
-    throw new BadRequestError("Yêu cầu không hợp lệ !");
+    throw new AuthFailureError("yes");
   }
 
   const tokenHeader = req.headers[HEADER.AUTHORIZATION];
