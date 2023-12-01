@@ -12,13 +12,16 @@ class UserService {
   }
 
   static async updateUser({ userId, ...rest }) {
-    return await UserModel.findOneAndUpdate(
+    const updatedUser = await UserModel.findOneAndUpdate(
       { _id: convertToObjectIdMongodb(userId) },
       rest,
       {
         new: true,
       }
-    );
+    )
+      .select(unGetSelectData(["password", "createdAt", "updatedAt", "__v"]))
+      .lean();
+    return updatedUser;
   }
 }
 
