@@ -9,6 +9,6 @@ const router = express.Router();
 router.use(authentication);
 
 router.patch("/:user_id/update", asyncHandler(UserController.updateUser));
-router.get("", asyncHandler(UserController.getUser));
+router.get("/:user_id", asyncHandler(UserController.getUser));
 
 module.exports = router;
