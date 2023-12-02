@@ -34,7 +34,7 @@ const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
   })
     .populate({
       path: "user",
-      select: "_id name email",
+      select: "_id name email avatar",
     })
     .populate({
       path: "category",

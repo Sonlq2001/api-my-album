@@ -12,7 +12,7 @@ const cloudinaryUploads = async (file) => {
     });
 
     return {
-      image_url: resCloudinary.url,
+      image_url: resCloudinary.secure_url,
       public_id: resCloudinary.public_id,
     };
   } catch (error) {
