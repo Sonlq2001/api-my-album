@@ -6,6 +6,11 @@ const {
   getAlbumDetail,
   getListAlbums,
 } = require("../models/repositories/album.repo");
+const {
+  convertToObjectIdMongodb,
+  getSelectData,
+  paginate,
+} = require("../utils");
 
 class AlbumService {
   static async getListAlbumsPublic({ cate, page, per_page, keyword, sort }) {
@@ -41,6 +46,34 @@ class AlbumService {
       status: STATUS_ALBUM.PRIVATE,
       unSelect: ["__v", "status"],
     });
+  }
+
+  static async getAlbumsUser({ userId, page, per_page, sort = "-createdAt" }) {
+    const { skip, limit } = paginate(page, per_page);
+    const sortList = sort === "-createdAt" ? -1 : 1;
+    const query = {
+      user: convertToObjectIdMongodb(userId),
+    };
+
+    return {
+      list: await AlbumModel.find(query)
+        .populate({ path: "category", select: "title" })
+        .select(
+          getSelectData([
+            "_id",
+            "title",
+            "albums",
+            "category",
+            "status",
+            "slug",
+          ])
+        )
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: sortList })
+        .lean(),
+      total: await AlbumModel.count(query),
+    };
   }
 }
 
