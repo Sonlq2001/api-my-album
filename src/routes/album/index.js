@@ -19,5 +19,6 @@ router.get(
   "/private/:slug",
   asyncHandler(AlbumController.getAlbumDetailPrivate)
 );
+router.get("/user", asyncHandler(AlbumController.getAlbumsUser));
 
 module.exports = router;

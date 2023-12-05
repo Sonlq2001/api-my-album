@@ -40,6 +40,16 @@ class AlbumController {
       metadata: await AlbumService.getAlbumDetailPrivate(req.params.slug),
     }).send(res);
   }
+
+  static async getAlbumsUser(req, res) {
+    new SuccessResponse({
+      message: "Danh sách albums của bạn !",
+      metadata: await AlbumService.getAlbumsUser({
+        ...req.query,
+        userId: req.user.userId,
+      }),
+    }).send(res);
+  }
 }
 
 module.exports = AlbumController;
