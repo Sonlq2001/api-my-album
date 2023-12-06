@@ -42,12 +42,14 @@ class AlbumController {
   }
 
   static async getAlbumsUser(req, res) {
+    const { list, total } = await AlbumService.getAlbumsUser({
+      ...req.query,
+      userId: req.user.userId,
+    });
     new SuccessResponse({
       message: "Danh sách albums của bạn !",
-      metadata: await AlbumService.getAlbumsUser({
-        ...req.query,
-        userId: req.user.userId,
-      }),
+      metadata: list,
+      meta: { total },
     }).send(res);
   }
 }
