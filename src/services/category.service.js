@@ -7,7 +7,7 @@ const {
   convertToObjectIdMongodb,
 } = require("../utils");
 
-class CategoryController {
+class CategoryService {
   static async createCategory(payload) {
     const newCategory = await CategoryModel.create(payload);
     return getInFoData({
@@ -54,4 +54,4 @@ class CategoryController {
   }
 }
 
-module.exports = CategoryController;
+module.exports = CategoryService;
