@@ -6,7 +6,7 @@ const cloudinaryUploads = require("../helpers/upload-cloudinary");
 
 const { BadRequestError } = require("../core/error.response");
 
-class UploadController {
+class UploadService {
   static async uploadFiles(files) {
     if (!files.length) {
       throw new BadRequestError("Không có file nào được tải lên !");
@@ -25,4 +25,4 @@ class UploadController {
   }
 }
 
-module.exports = UploadController;
+module.exports = UploadService;
