@@ -1,4 +1,6 @@
 const AlbumModel = require("../../models/album.model");
+const Bookmark = require("../../models/bookmark.model");
+
 const {
   unGetSelectData,
   getSelectData,
@@ -27,7 +29,7 @@ const getConditionFindAlbums = async ({ status, slug, keyword }) => {
   return conditionFind;
 };
 
-const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
+const getAlbumDetail = async ({ slug, userId, status, unSelect = [] }) => {
   const albumDetail = await AlbumModel.findOne({
     slug,
     status,
@@ -43,7 +45,12 @@ const getAlbumDetail = async ({ slug, status, unSelect = [] }) => {
     .select(unGetSelectData(unSelect))
     .lean();
 
-  return albumDetail;
+  const isBookmark = await Bookmark.findOne({
+    user: convertToObjectIdMongodb(userId),
+    bookmarks: { $in: albumDetail._id },
+  });
+
+  return { ...albumDetail, is_bookmark: Boolean(isBookmark) };
 };
 
 const getListAlbums = async ({ status, params }) => {

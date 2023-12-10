@@ -5,11 +5,11 @@ const SuccessResponse = require("../core/success.response");
 
 class BookmarkController {
   static async toggleBookmark(req, res) {
-    const { albumId, userId } = req.body;
+    const { album_id } = req.body;
     new SuccessResponse({
       message: "Ok",
       metadata: await BookmarkService.toggleBookmark({
-        albumId,
+        albumId: album_id,
         userId: req.user.userId,
       }),
     }).send(res);
