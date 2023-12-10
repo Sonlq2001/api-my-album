@@ -2,6 +2,7 @@
 
 const AlbumService = require("../services/album.service");
 const SuccessResponse = require("../core/success.response");
+const { HEADER } = require("../utils/authUtils");
 
 class AlbumController {
   static async getListAlbumsPublic(req, res) {
@@ -30,7 +31,10 @@ class AlbumController {
   static async getAlbumDetailPublic(req, res) {
     new SuccessResponse({
       message: "Chi tiết album !",
-      metadata: await AlbumService.getAlbumDetailPublic(req.params.slug),
+      metadata: await AlbumService.getAlbumDetailPublic({
+        slug: req.params.slug,
+        userId: req.headers[HEADER.CLIENT_ID],
+      }),
     }).send(res);
   }
 

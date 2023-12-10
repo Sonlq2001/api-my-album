@@ -32,9 +32,10 @@ class AlbumService {
     return newAlbum;
   }
 
-  static async getAlbumDetailPublic(slug) {
+  static async getAlbumDetailPublic({ slug, userId }) {
     return await getAlbumDetail({
       slug,
+      userId,
       status: STATUS_ALBUM.PUBLIC,
       unSelect: ["__v", "status"],
     });

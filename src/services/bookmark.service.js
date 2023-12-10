@@ -1,6 +1,7 @@
 "use strict";
 
 const BookmarkModel = require("../models/bookmark.model");
+
 const { convertToObjectIdMongodb } = require("../utils");
 
 class BookmarkService {
@@ -8,7 +9,7 @@ class BookmarkService {
     const isExistAlbum = await BookmarkModel.findOne({
       user: convertToObjectIdMongodb(userId),
       bookmarks: { $in: albumId },
-    });
+    }).lean();
 
     const query = isExistAlbum
       ? { $pull: { bookmarks: albumId } }
