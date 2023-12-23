@@ -8,7 +8,7 @@ const COLLECTION_NAME = "Bookmark";
 const bookmarkSchema = new Schema(
   {
     user: { type: Types.ObjectId, ref: "User", required: true },
-    bookmarks: { type: Types.ObjectId, ref: "Album", required: true },
+    bookmarks: [{ type: Types.ObjectId, ref: "Album", required: true }],
   },
   {
     timestamps: true,
