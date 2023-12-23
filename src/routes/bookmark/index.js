@@ -10,4 +10,9 @@ router.use(authentication);
 
 router.patch("/album", asyncHandler(BookmarkController.toggleBookmark));
 
+router.get(
+  "/album_list",
+  asyncHandler(BookmarkController.getListAlbumsBookmark)
+);
+
 module.exports = router;
