@@ -49,12 +49,26 @@ class AlbumService {
     });
   }
 
-  static async getAlbumsUser({ userId, page, per_page, sort = "-createdAt" }) {
+  static async getAlbumsUser({
+    userId,
+    page,
+    per_page,
+    sort = "-createdAt",
+    filter = "all",
+  }) {
     const { skip, limit } = paginate(page, per_page);
     const sortList = sort === "-createdAt" ? -1 : 1;
-    const query = {
-      user: convertToObjectIdMongodb(userId),
-    };
+
+    const query =
+      filter === "all"
+        ? {
+            user: convertToObjectIdMongodb(userId),
+          }
+        : {
+            user: convertToObjectIdMongodb(userId),
+            status:
+              filter === "public" ? STATUS_ALBUM.PUBLIC : STATUS_ALBUM.PRIVATE,
+          };
 
     return {
       list: await AlbumModel.find(query)
