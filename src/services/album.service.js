@@ -11,6 +11,8 @@ const {
   getSelectData,
   paginate,
 } = require("../utils");
+const UserService = require("./user.service");
+const { BadRequestError } = require("../core/error.response");
 
 class AlbumService {
   static async getListAlbumsPublic({ cate, page, per_page, keyword, sort }) {
@@ -86,6 +88,30 @@ class AlbumService {
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: sortList })
+        .lean(),
+      total: await AlbumModel.count(query),
+    };
+  }
+
+  static async getUserAlbumsInfo({ slugUser, page, per_page }) {
+    const userInfo = await UserService.getUserInfo(slugUser);
+    if (!userInfo) {
+      throw new BadRequestError("User không tồn tại !");
+    }
+
+    const { skip, limit } = paginate(page, per_page);
+
+    const query = {
+      user: convertToObjectIdMongodb(userInfo._id),
+      status: STATUS_ALBUM.PUBLIC,
+    };
+
+    return {
+      list: await AlbumModel.find(query)
+        .populate({ path: "category", select: "title -_id" })
+        .skip(skip)
+        .limit(limit)
+        .select(getSelectData(["_id", "title", "albums", "category", "slug"]))
         .lean(),
       total: await AlbumModel.count(query),
     };

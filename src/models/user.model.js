@@ -1,6 +1,7 @@
 "use strict";
 
 const { model, Schema } = require("mongoose");
+const slugify = require("slugify");
 
 const DOCUMENT_NAME = "User";
 const COLLECTION_NAME = "User";
@@ -36,11 +37,19 @@ const userSchema = new Schema(
       type: Schema.Types.Boolean,
       default: false,
     },
+    slug: {
+      type: String,
+    },
   },
   {
     timestamps: true,
     collection: COLLECTION_NAME,
   }
 );
+
+userSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true, locale: "vi", trim: true });
+  next();
+});
 
 module.exports = model(DOCUMENT_NAME, userSchema);
