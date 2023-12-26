@@ -56,6 +56,18 @@ class AlbumController {
       meta: { total },
     }).send(res);
   }
+
+  static async getUserAlbumsInfo(req, res) {
+    const { list, total } = await AlbumService.getUserAlbumsInfo({
+      ...req.query,
+      slugUser: req.params.slug_user,
+    });
+    new SuccessResponse({
+      message: "Danh sách albums !",
+      metadata: list,
+      meta: { total },
+    }).send(res);
+  }
 }
 
 module.exports = AlbumController;

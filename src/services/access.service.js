@@ -51,7 +51,15 @@ class AccessService {
 
     return {
       ...getInFoData({
-        fields: ["_id", "email", "name", "role", "avatar", "background"],
+        fields: [
+          "_id",
+          "email",
+          "name",
+          "role",
+          "avatar",
+          "background",
+          "slug",
+        ],
         object: foundUser,
       }),
       accessToken,

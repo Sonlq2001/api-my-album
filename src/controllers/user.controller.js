@@ -21,6 +21,14 @@ class UserController {
       metadata: await UserService.findUserById(req.params.user_id),
     }).send(res);
   }
+
+  static async getUserInfo(req, res) {
+    console.log(req.params.slug_user);
+    new SuccessResponse({
+      message: "Thông tin người dùng !",
+      metadata: await UserService.getUserInfo(req.params.slug_user),
+    }).send(res);
+  }
 }
 
 module.exports = UserController;

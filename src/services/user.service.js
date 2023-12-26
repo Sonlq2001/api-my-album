@@ -23,6 +23,13 @@ class UserService {
       .lean();
     return updatedUser;
   }
+
+  static async getUserInfo(slugUser) {
+    const userInfo = await UserModel.findOne({ slug: slugUser })
+      .select(unGetSelectData(["password", "createdAt", "updatedAt", "__v"]))
+      .lean();
+    return userInfo;
+  }
 }
 
 module.exports = UserService;

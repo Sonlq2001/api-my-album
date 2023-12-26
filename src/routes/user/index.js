@@ -6,6 +6,8 @@ const { authentication } = require("../../utils/authUtils");
 
 const router = express.Router();
 
+router.get("/:slug_user/info", asyncHandler(UserController.getUserInfo));
+
 router.use(authentication);
 
 router.patch("/:user_id/update", asyncHandler(UserController.updateUser));
