@@ -8,6 +8,7 @@ const { authentication } = require("../../utils/authUtils");
 
 const router = express.Router();
 
+router.get("/search", asyncHandler(AlbumController.getSearchAlbums));
 router.get("/list/public", asyncHandler(AlbumController.getListAlbumsPublic));
 router.get("/public/:slug", asyncHandler(AlbumController.getAlbumDetailPublic));
 router.get("/:slug_user/info", asyncHandler(AlbumController.getUserAlbumsInfo));
