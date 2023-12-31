@@ -68,6 +68,13 @@ class AlbumController {
       meta: { total },
     }).send(res);
   }
+
+  static async getSearchAlbums(req, res) {
+    new SuccessResponse({
+      message: "Kết quả tìm kiếm !",
+      metadata: await AlbumService.getSearchAlbums({ keyword: req.query.q }),
+    }).send(res);
+  }
 }
 
 module.exports = AlbumController;

@@ -116,6 +116,17 @@ class AlbumService {
       total: await AlbumModel.count(query),
     };
   }
+
+  static async getSearchAlbums({ keyword }) {
+    const regexSearch = new RegExp(keyword);
+    const searchResult = await AlbumModel.find({
+      $text: { $search: regexSearch },
+      status: STATUS_ALBUM.PUBLIC,
+    })
+      .select(getSelectData(["title", "albums", "slug"]))
+      .lean();
+    return searchResult;
+  }
 }
 
 module.exports = AlbumService;
