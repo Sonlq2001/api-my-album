@@ -127,7 +127,7 @@ class AlbumService {
 
     return {
       list: await AlbumModel.find(query)
-        .select(getSelectData(["title", "albums", "slug"]))
+        .select(getSelectData(["title", "albums", "slug", "date"]))
         .lean(),
       total: await AlbumModel.count(query),
     };
