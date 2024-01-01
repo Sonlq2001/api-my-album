@@ -70,9 +70,13 @@ class AlbumController {
   }
 
   static async getSearchAlbums(req, res) {
+    const { list, total } = await AlbumService.getSearchAlbums({
+      keyword: req.query.q,
+    });
     new SuccessResponse({
       message: "Kết quả tìm kiếm !",
-      metadata: await AlbumService.getSearchAlbums({ keyword: req.query.q }),
+      metadata: list,
+      meta: { total },
     }).send(res);
   }
 }
