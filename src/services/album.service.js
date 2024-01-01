@@ -119,13 +119,18 @@ class AlbumService {
 
   static async getSearchAlbums({ keyword }) {
     const regexSearch = new RegExp(keyword);
-    const searchResult = await AlbumModel.find({
+
+    const query = {
       $text: { $search: regexSearch },
       status: STATUS_ALBUM.PUBLIC,
-    })
-      .select(getSelectData(["title", "albums", "slug"]))
-      .lean();
-    return searchResult;
+    };
+
+    return {
+      list: await AlbumModel.find(query)
+        .select(getSelectData(["title", "albums", "slug"]))
+        .lean(),
+      total: await AlbumModel.count(query),
+    };
   }
 }
 
