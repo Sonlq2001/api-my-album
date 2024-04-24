@@ -22,5 +22,6 @@ router.get(
   asyncHandler(AlbumController.getAlbumDetailPrivate)
 );
 router.get("/user", asyncHandler(AlbumController.getAlbumsUser));
+router.delete("/delete/many", asyncHandler(AlbumController.deleteManyAlbums));
 
 module.exports = router;
