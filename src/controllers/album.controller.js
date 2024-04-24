@@ -79,6 +79,13 @@ class AlbumController {
       meta: { total },
     }).send(res);
   }
+
+  static async deleteManyAlbums(req, res) {
+    new SuccessResponse({
+      message: "Kết quả tìm kiếm !",
+      metadata: await AlbumService.deleteManyAlbums({ listId: req.body?.ids }),
+    }).send(res);
+  }
 }
 
 module.exports = AlbumController;

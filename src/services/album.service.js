@@ -132,6 +132,11 @@ class AlbumService {
       total: await AlbumModel.count(query),
     };
   }
+
+  static async deleteManyAlbums({ listId = [] }) {
+    const deleteSuccess = await AlbumModel.deleteMany({ _id: { $in: listId } });
+    return deleteSuccess;
+  }
 }
 
 module.exports = AlbumService;
